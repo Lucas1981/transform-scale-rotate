@@ -32,12 +32,10 @@
         }
     }
 
-    const getRotation = (x, y) => {
-        const angleInRad = degToRad(angle);
-
+    const getRotation = (x, y, angle) => {
         return {
-            x: Math.floor((x - xc) * Math.cos(angleInRad) - (y - yc) * Math.sin(angleInRad) + xc),
-            y: Math.floor((x - xc) * Math.sin(angleInRad) + (y - yc) * Math.cos(angleInRad) + yc)
+            x: Math.floor((x - xc) * Math.cos(angle) - (y - yc) * Math.sin(angle) + xc),
+            y: Math.floor((x - xc) * Math.sin(angle) + (y - yc) * Math.cos(angle) + yc)
         }
     };
 
@@ -68,8 +66,9 @@
     const main = (loop = true) => {
         const now = new Date();
         const timeElapsed = now - last;
+        const angleInRad = degToRad(angle);
 
-        if (timeElapsed > 400) {
+        if (timeElapsed > 10) {
             angle = (angle + 1) % 360;
             last = now;
         }
@@ -79,9 +78,9 @@
         // Iterate over the pixels with twice the granularity to avoid "gaps"
         for (let j = 0; j < targetHeight * 2; j++) {
             for (let i = 0; i < targetWidth * 2; i++) {
-                const { x, y } = getRotation(i / 2, j / 2);
+                const { x, y } = getRotation(i / 2, j / 2, angleInRad);
                 const color = sampleColor(i / 2, j / 2);
-                plotPixel(50 + x, 50 + y, color); // { r: 255, g: 0, b: 0 });
+                plotPixel(50 + x, 80 + y, color); // { r: 255, g: 0, b: 0 });
             }
         };
 
@@ -89,5 +88,5 @@
         if (loop) window.requestAnimationFrame(main);
     }
 
-    main(false);
+    main();
 })(document, window);
