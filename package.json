@@ -1,5 +1,5 @@
 {
-  "name": "transform-scale-rotate-image",
+  "name": "translate-scale-rotate-image",
   "version": "1.0.0",
   "description": "",
   "main": "./src/index.js",
